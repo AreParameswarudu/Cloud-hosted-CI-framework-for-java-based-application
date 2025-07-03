@@ -26,7 +26,7 @@ Follow these steps on every server
 - ` hostnamectl set-hostname jenkins `   for each machine replace jenkins with appropiate name.
 - ` sudo -i ` to reflect the changes.
 ### 2. Configuring JENKINS.
-Setting up Jenkins require to install java11 and jenkins. follow this for the same. 
+Setting up Jenkins require to install **java11** and jenkins. follow this for the same. 
 -  Create a shell script with name **jenkins.sh** and add the content from the jenkins.sh file.
 -  use the command ` sh jenkins.sh ` to run the shell srcipt.
 After sucessful run, open up new browser,
@@ -43,6 +43,41 @@ After sucessfull login, it will prompt us to install plugins, use suggested plug
 
 Next it will prompt use to create a profile. 
 
-![Screenshot 2025-06-24 103445](https://github.com/user-attachments/assets/491016b0-6a59-45f0-ac65-1b32ec2bd61f)
+![Screenshot 2025-06-26 083134](https://github.com/user-attachments/assets/67fa51e6-da4d-4bcd-ada7-2ef1c02c38f0)
+
+
+-  Next comes to add the plugins.
+1. For SONARQUBE:
+   - SonarQube scanner
+   - Sonar Scanner Quality Gates
+   - Maven Integration plugins  
+2. For TOMCAT:
+   - Deploy to container
+3. Sotring artificats in NEXUS:
+    - Nexus artifacts uploader
+
+After installing the plugins, restart/refersh the jenkins ( from GUI itself ).
+
+
+<br/>
+**Email Notification**
+If build fails, we should get notifications
+
+Manage Jenkins --> System --> Email Notification
+	
+SMTP server = smtp.gmail.com
+Default user e-mail suffix= @jenkinstest.com
+Use SMTP Authentication = Username = reyazr3f@gmail.com
+For password = Go to browser --> gmail profile--> Manage your Google Account --> Security --> Turn ON 2-steps authentication -->  On Top --> Search for App Password --> App name --> Jenkins --> Create --> Copy code -->
+	miqx ynqp dprc qgpt --> Done
+                  copy the code and paste in password section
+
+
+Use SSL
+SMTP Port = 465
+Test configuration by sending test e-mail = reyazr3f@gmail.com = Test Configuration
+
+Edit the job --> Configuration --> Post-build Actions --> Recipients = reyazr3f@gmail.com
+And Fail the job to get email
 
 
