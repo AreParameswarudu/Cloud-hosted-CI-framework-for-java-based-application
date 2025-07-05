@@ -2,6 +2,9 @@
 <i> This project was built to simulate a pre-prod or development envronment for a monolithic application.</i>
 
 This project involves creating a _**CONTINUOUS INTEGRATION** _of tools that automate the work of pulling code from the Source Code Management which is _**GITHUB**_, building the artifacts using _**MAVEN**_, test and analyzing the quality of the code using _**SONARQUBE**_, followed by deploying the code into an application based server which is _**TOMCAT**_ and at last storing the created artifacts in a storage which I choose _**NEXUS**_ for that purpose. For integration of all the tools _**JENKINS**_ was used.
+
+![image](https://github.com/user-attachments/assets/5d3c8585-2d2f-4ded-abe8-0cdca2f06f12)
+
   
 ## The Readme file describes the project setup in the following order 
 _same order is advised if want to replicate._
