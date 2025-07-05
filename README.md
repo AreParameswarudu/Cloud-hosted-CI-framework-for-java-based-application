@@ -1,11 +1,8 @@
 # Cloud-hosted-CI-framework-for-java-based-application.
-<i> This project was built to simulate a pre-prod or development envronment.</i>
+<i> This project was built to simulate a pre-prod or development envronment for a monolithic application.</i>
 
-This project involves creating a **CONTINUOUS INTEGRATION** of tools that automate the work of pulling code from the Source Code Management which is **GITHUB**, building the artifacts using **MAVEN**, test and analyzing the quality of the code using **SONARQUBE**, followed by deploying the code into an application based server which is **TOMCAT** and at last storing the created artifacts in a storage which I choose **NEXU**S for that purpose. For integration of all the tools **JENKINS** was used.
-
-<br>
-
-
+This project involves creating a _**CONTINUOUS INTEGRATION** _of tools that automate the work of pulling code from the Source Code Management which is _**GITHUB**_, building the artifacts using _**MAVEN**_, test and analyzing the quality of the code using _**SONARQUBE**_, followed by deploying the code into an application based server which is _**TOMCAT**_ and at last storing the created artifacts in a storage which I choose _**NEXUS**_ for that purpose. For integration of all the tools _**JENKINS**_ was used.
+  
 ## The Readme file describes the project setup in the following order 
 _same order is advised if want to replicate._
 ### 1. Launching EC2 instances.
@@ -305,9 +302,9 @@ For password = use the pass created by following below instructions.
 ` Go to browser --> gmail profile--> Manage your Google Account --> Security --> Turn ON 2-steps authentication `  
 ` On serach bar --> Search for App Password --> App name --> Jenkins --> Create --> Copy code`  
   
-Use SSL
-SMTP Port = 465
-Test configuration by sending test e-mail = reyazr3f@gmail.com = Test Configuration
+Use SSL  
+SMTP Port = 465  
+Test configuration by sending test e-mail = your_email +=> Test Configuration
 
 Edit the job --> Configuration --> Post-build Actions --> Recipients = your_email
 And Fail the job desperately to get email.
