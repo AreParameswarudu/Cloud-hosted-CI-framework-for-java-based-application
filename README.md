@@ -48,7 +48,7 @@ Next it will prompt use to create a profile.
 ![Screenshot 2025-06-26 083134](https://github.com/user-attachments/assets/67fa51e6-da4d-4bcd-ada7-2ef1c02c38f0)
 
 
-Next comes to add the plugins.  
+Next comes to add the plugins.  `Don't install plugins right now.`  
 - For SONARQUBE:
 	* SonarQube scanner
 	* Sonar Scanner Quality Gates
@@ -57,6 +57,9 @@ Next comes to add the plugins.
   	* Deploy to container
 - For Sotring artificats in NEXUS:
 	* Nexus artifacts uploader
+
+![Screenshot 2025-06-26 083601](https://github.com/user-attachments/assets/61f16005-fc1d-4071-b4ee-b1320e5cea21)
+
 
 After installing the plugins, restart/refersh the jenkins ( from GUI itself ).
 ## 3. Configuring SonarQube
@@ -137,6 +140,8 @@ Dashboard ---> Manage Jenkins -->System --> search for SonarQube servers --> Ena
 * Go to  Tools
 Dashboard ---> Manage Jenkins  --> SonarQube Scanner installations , Name = SonarScanner --> install automaticallly ---> don't click add installer  
 		`OPTIONAL : Add maven --> Name= maven`
+  
+![Screenshot 2025-06-24 105704](https://github.com/user-attachments/assets/9de412ad-b97f-4a08-b8d2-90f1a9df3635)
 
 
 3.5. Build the pipeline  
@@ -165,18 +170,28 @@ additional commands if needed
 4.3. Access the GUI 
  use --> http://server-public-IP:8081  
 
- 
+ ![Screenshot 2025-06-24 110438](https://github.com/user-attachments/assets/bb653943-5f6a-4047-a3cf-2b76fd074aa7)
+
 
 * Click on SignIN  
 	- Username = admin,  
 	- password = cat /opt/nexus/sonatype-work/nexus3/admin.password       
 Creating Repo  
 
+![image](https://github.com/user-attachments/assets/69ee131d-29e1-494a-b3dd-2bf81c5d8bd4)
+
+
 * Go to settings  --> Repositories --> Create repository
 	- Maven2(hosted) --> name(Hotstar-project)   
 	- Version Policy --> Snapshot  
 	- Deployment policy --> allow to redeploy.  
 	- Save
+
+![image](https://github.com/user-attachments/assets/e46056d2-cacd-42b6-918c-9fc4954f7366)
+
+![image](https://github.com/user-attachments/assets/6c7d472b-23e5-40e9-981d-73be0b47afbb)
+
+
 4.4. Integrate Nexus to Jenkins Pipeline  
 Jenkins (Code --> Build --> Test --> Artifact) --> Nexus  
 * Download the Plugins (nexus artifacts uploader)  
@@ -200,25 +215,101 @@ For generating the snippet for NEXUS stage:
 	`version: see pom file (1.2.2) 8.3.3-SNAPSHOT  `  
 	`Repository: repo that you created in nexus  : hotstar  `  
 	`Artifact: Add : Artifactid: see pom (myapp) , Type = .war, classifier = empty,  File = target/myapp.war`  
-<br/>
+##  5. Configuring TOMCAT
+
+5.1. Launch an EC2 instance - Amazon linux 2 - t2.micro is enough.  
+  
+5.2. Install TOMCAT using script.  
+  
+5.3. Access the GUI    
+use: http://server_IP:8080    
+manager apps --> username: tomcat, password: root123456  
+
+![Screenshot 2025-06-24 121351](https://github.com/user-attachments/assets/cd823fab-3408-402c-9f0b-25c13f91a818)
+
+  
+5.4. Integrate with Jenkins  
+* In Jenkins server first install a plugin(Deploy to container).    
+		--> Manage Jenkins --> Plugins --> Available Plugins --> Deploy to container.  
+  
+![Screenshot 2025-06-24 121545](https://github.com/user-attachments/assets/d0f090c1-b615-4b0a-aa11-db3dd2b18d32)
+
+	Restart the jenkins.   
+* Create credentials for tomcat   
+		--> Manage Jenkins --> Credentials --> System --> Global credentials (unrestricted) --> Add credentials --> Username:tomcat, password: root123456, id = tomcatcreds  
+![Screenshot 2025-06-24 121813](https://github.com/user-attachments/assets/5424b8b1-f51f-4516-aac9-af2cb1cd1b2d)
+ 
+## 6. Creating Pipeline:
+
+New Item --> Name = Hostar-app --> Pipeline --> OK.  
+
+![Screenshot 2025-06-24 111602](https://github.com/user-attachments/assets/3161ade9-a772-48de-9076-1b50ce4f55e4)
+
+
+Go to groovy code snadbox,  
+  
+start writing the pipeline.  
+  
+Pipeline can be found in the pipeline.txt file.  
+  
+Save --> build --> enter the build --> pipeline overview.   
+
+* creating tomcat snippet:
+	- Open Pipeline Syntax:  
+`select deploy:Deploy war/ear to a container `  
+`WAR/EAR files = **/*.war`  
+`Context path = Hostar-app`  
+`Add container --> select tomcat 9`  
+`credentials = tomcatcreds`  
+`Tomcat URL = http://13.126.17.44:8080/`  
+![Screenshot 2025-06-24 121903](https://github.com/user-attachments/assets/baf5c9dd-3d01-4ae2-9c61-23db0a9285be)
+
+## A peek into the results.
+* Build Overview
+
+   ![Screenshot 2025-06-26 100916](https://github.com/user-attachments/assets/18c3ea11-8491-4221-a071-415b870c9e5c)
+
+  
+  
+* SonarQube test results
+	- Go to the project overview in the sonarqube GUI, or you can access the results from the jenkins build overview section
+  
+![image](https://github.com/user-attachments/assets/3be16187-b512-4275-b69f-17fea67971f2)
+
+![image](https://github.com/user-attachments/assets/05681ae8-d7ec-4ed1-8c7b-226cf76f5cc0)
+
+![image](https://github.com/user-attachments/assets/d98beed2-a32d-4638-ba50-101e781befe3)
+
+* Artifacts stored in nexus.
+
+  ![image](https://github.com/user-attachments/assets/bbd50d4d-ca25-4af3-afe7-74e4646830ae)
+
+  ![image](https://github.com/user-attachments/assets/869b6a60-52f9-4fc6-8d1d-7ce58dbe5e6d)
+
+* Tomcat
+
+  ![image](https://github.com/user-attachments/assets/43df1364-2048-4c5d-8c47-6c56475af471)
+
+  ![Screenshot 2025-06-24 122215](https://github.com/user-attachments/assets/a9341ab7-3c10-40f5-9e58-d00542b235bc)
+
+
+## Additional featur to add:
 **Email Notification**
-If build fails, we should get notifications
-
-Manage Jenkins --> System --> Email Notification
-	
-SMTP server = smtp.gmail.com
-Default user e-mail suffix= @jenkinstest.com
-Use SMTP Authentication = Username = reyazr3f@gmail.com
-For password = Go to browser --> gmail profile--> Manage your Google Account --> Security --> Turn ON 2-steps authentication -->  On Top --> Search for App Password --> App name --> Jenkins --> Create --> Copy code -->
-	miqx ynqp dprc qgpt --> Done
-                  copy the code and paste in password section
-
-
+If build fails, we should get notifications  
+Manage Jenkins --> System --> Email Notification  
+SMTP server = smtp.gmail.com  
+Default user e-mail suffix= @jenkinstest.com  
+Use SMTP Authentication = Username = your_email `Use the working email`  
+For password = use the pass created by following below instructions.    
+  
+` Go to browser --> gmail profile--> Manage your Google Account --> Security --> Turn ON 2-steps authentication `  
+` On serach bar --> Search for App Password --> App name --> Jenkins --> Create --> Copy code`  
+  
 Use SSL
 SMTP Port = 465
 Test configuration by sending test e-mail = reyazr3f@gmail.com = Test Configuration
 
-Edit the job --> Configuration --> Post-build Actions --> Recipients = reyazr3f@gmail.com
-And Fail the job to get email
+Edit the job --> Configuration --> Post-build Actions --> Recipients = your_email
+And Fail the job desperately to get email.
 
 
