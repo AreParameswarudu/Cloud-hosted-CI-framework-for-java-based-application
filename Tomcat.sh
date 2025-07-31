@@ -9,3 +9,12 @@ sed -i '56d' apache-tomcat-10.1.42/conf/tomcat-users.xml
 sed -i '21d' apache-tomcat-10.1.42/webapps/manager/META-INF/context.xml
 sed -i '22d' apache-tomcat-10.1.42/webapps/manager/META-INF/context.xml
 sh apache-tomcat-10.1.42/bin/startup.sh
+
+
+# the above script is AL2 dedicated, and it was retrived/reverted from use by aws.
+#################################
+# Major changes
+# 1. amazon-linux-extras wont work with AL 2023.
+#    so use   --> sudo yum install java-11-amazon-corretto -y
+# 2. tomcat-10/v10.1.42 is not working, 
+#    need to upgrade it to tomcat-10/v10.1.43
