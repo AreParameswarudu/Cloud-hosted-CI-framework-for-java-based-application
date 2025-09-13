@@ -293,8 +293,8 @@ Save --> build --> enter the build --> pipeline overview.
   ![Screenshot 2025-06-24 122215](https://github.com/user-attachments/assets/a9341ab7-3c10-40f5-9e58-d00542b235bc)
 
 
-## Additional featur to add:
-**Email Notification**
+## Additional features to add:
+### 1. **Email Notification**
 If build fails, we should get notifications  
 Manage Jenkins --> System --> Email Notification  
 SMTP server = smtp.gmail.com  
@@ -312,4 +312,7 @@ Test configuration by sending test e-mail = your_email +=> Test Configuration
 Edit the job --> Configuration --> Post-build Actions --> Recipients = your_email
 And Fail the job desperately to get email.
 
-
+### 2. Monitoring  
+Monitoring the **server metrics** with **prometheus** and **Node exporter**.  
+Monitoring the **application logs** using  **Loki** and **Pomtail**.  
+Using Grafana to visualize both.
