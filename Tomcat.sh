@@ -1,5 +1,8 @@
-amazon-linux-extras install java-openjdk11 -y
-wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.42/bin/apache-tomcat-10.1.42.tar.gz
+#amazon-linux-extras install java-openjdk11 -y
+sudo yum install java-17-amazon-corretto -y
+
+#wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.42/bin/apache-tomcat-10.1.42.tar.gz
+wget https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.42/bin/apache-tomcat-10.1.42.tar.gz
 tar -zxvf apache-tomcat-10.1.42.tar.gz
 sed -i '56  a\<role rolename="manager-gui"/>' apache-tomcat-10.1.42/conf/tomcat-users.xml
 sed -i '57  a\<role rolename="manager-script"/>' apache-tomcat-10.1.42/conf/tomcat-users.xml
